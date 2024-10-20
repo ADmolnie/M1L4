@@ -3,6 +3,7 @@ import requests
 
 class Pokemon:
     pokemons = {}
+    health = randint(100, 1000)
     # Инициализация объекта (конструктор)
     def __init__(self, pokemon_trainer):
 
@@ -37,7 +38,7 @@ class Pokemon:
 
     # Метод класса для получения информации
     def info(self):
-        return f"Имя твоего покеомона: {self.name}"
+        return f"Имя твоего покеомона: {self.name}, Здоровье твоего покемона: {self.health}."
 
     # Метод класса для получения картинки покемона
     def show_img(self):
