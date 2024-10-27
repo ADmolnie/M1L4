@@ -52,7 +52,7 @@ class Pokemon:
             else:
                 enemy.hp = 0
                 return f"Победа @{self.pokemon_trainer} над @{enemy.pokemon_trainer}! "
-
+            
 
     # Метод класса для получения информации
     def info(self):

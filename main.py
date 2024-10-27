@@ -4,7 +4,6 @@ from config import token
 from logic import Pokemon
 from logic import Wizard
 from logic import Fighter
-import time
 
 
 feeding = 100
@@ -58,6 +57,17 @@ def attack_pok(message):
     else:
             bot.send_message(message.chat.id, "Чтобы атаковать, нужно ответить на сообщения того, кого хочешь атаковать")
     
+
+@bot.message_handler(commands=['info'])
+def attack_pok(message):
+    global feeding
+    feeding -= 10
+    if message.from_user.username in Pokemon.pokemons.keys():
+        pok = Pokemon.pokemons[message.from_user.username]
+        bot.send_message(message.chat.id, pok.info())
+        bot.send_photo(message.chat.id, pok.show_img())
+    else:
+        bot.reply_to(message, "Ты ещё не создал себе покемона")
 
 bot.infinity_polling(none_stop=True)
 
