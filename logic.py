@@ -1,5 +1,6 @@
 from random import randint
 import requests
+from datetime import datetime, timedelta
 
 class Pokemon:
     pokemons = {}
@@ -7,7 +8,11 @@ class Pokemon:
     # Инициализация объекта (конструктор)
     def __init__(self, pokemon_trainer):
 
+
         self.pokemon_trainer = pokemon_trainer
+
+
+        self.last_feed_time = datetime
 
 
         self.hp = randint(100,1000)
@@ -15,8 +20,21 @@ class Pokemon:
         self.pokemon_number = randint(1,1000)
         self.img = self.get_img()
         self.name = self.get_name()
+        
 
         Pokemon.pokemons[pokemon_trainer] = self
+
+
+    def feed(self, feed_interval = 20, hp_increase = 100):
+        current_time = datetime.now()  
+        delta_time = timedelta(second=feed_interval)  
+        if (current_time - self.last_feed_time) > delta_time:
+            self.hp += hp_increase
+            self.last_feed_time = current_time
+            return f"Здоровье покемона увеличено. Текущее здоровье: {self.hp}"
+        else:
+            return f"Следующее время кормления покемона: {current_time+delta_time}"
+
 
     # Метод для получения картинки покемона через API
     def get_img(self):
@@ -72,6 +90,10 @@ class Wizard(Pokemon):
         return f"У тебя покемон волшебник. \n" +super().info()
         
 
+    def feed(self):
+        return super().feed(feed_interval = 10, hp_increase = 100)
+    
+
     def attack(self, enemy):
         return super().attack(enemy)
 
@@ -81,17 +103,22 @@ class Fighter(Pokemon):
         return f"У тебя покемон боец. \n" +super().info()
         
     
+    def feed(self):
+        return super().feed(feed_interval = 20, hp_increase = 200)
+
 
     def attack(self, enemy):
         super_power = randint(5,15)
         self.power += super_power
         result = super().attack(enemy)
         self.power -= super_power
-        return result + f"\nБоец применил супер-атаку силой:{super_power} "
+        return result + f"\nБоец применил супер-атаку силой:{super_power}"
     
+
 if __name__ == '__main__':
     wizard = Wizard("username1")
     fighter = Fighter("username2")
+
 
     print(wizard.info())
     print()
